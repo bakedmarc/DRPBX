@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Professional Two Section Layout</title>
+<style>
+  /* Resetting default margin and padding */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* General styling */
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    color: #333;
+  }
+
+  /* Styling for the container */
+  .container {
+    display: flex;
+    height: 100vh;
+    position: relative; /* added */
+  }
+
+  /* Styling for each section/window */
+  .section {
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 20px;
+    overflow: auto;
+    background-color: #fff;
+    position: relative; /* added */
+  }
+
+  /* Styling to give some space between sections */
+  .section + .section {
+    margin-left: 20px;
+  }
+
+  /* Styling for navigation bar */
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    background: linear-gradient(to right, #ffb347, #ffcc33, #ffeb99);
+    padding: 10px;
+    border-radius: 20px;
+  }
+
+  .nav a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px 15px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+  }
+
+  .nav a:hover {
+    background-color: rgba(255, 5, 5, 0.5);
+  }
+
+  /* Styling for company logo */
+  .logo {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .logo img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Styling for section headings */
+  h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  /* Styling for section content */
+  p {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  /* Styling for icons */
+  .fa {
+    margin-right: 5px;
+  }
+
+  /* Hide the input element */
+  input[type="file"] {
+    display: none;
+  }
+
+  /* Styling for the form container */
+  #formContainer {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 999; /* Ensure it's above other elements */
+  }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+<div class="container">
+  <div class="section">
+    <div class="logo">
+      <img src="logo.png" alt="Company Logo">
+    </div>
+    
+    <div class="nav">
+      <a href="#" id="documentTraysLink">Document Trays</a>
+      <a href="#">Search</a>
+      <a href="#">Task</a>
+      <a href="#">Folder</a>
+    </div>
+
+    <!-- Additional navigation bar in Section 1 -->
+
+    <div class="nav">
+        <a href="#" onclick="document.getElementById('fileInput').click(); return false;"><i class="fab fa-dropbox"></i>Import</a>
+        <input type="file" id="fileInput" style="display:none;">
+        <a href="#"><i class="fa-solid fa-print"></i>Scan</a>
+        <!-- Two other icons or links -->
+        <a href="#"></i>Icon 1</a>
+        <a href="#"><i class="fas fa-database"></i></a>
+      </div>
+
+    <h2>Section 1</h2>
+    <p>This is the content of section 1.</p>
+    <!-- Add more content here -->
+  </div>
+  <div class="section">
+    <h2>Section 2</h2>
+    <p>This is the content of section 2.</p>
+    <!-- Add more content here -->
+  </div>
+</div>
+
+<!-- Form for Document Trays -->
+<div id="formContainer">
+  <h2>Document Trays Form</h2>
+  <form>
+    <label for="documentType">Document Type:</label>
+    <input type="text" id="documentType" name="documentType"><br><br>
+
+    <label for="company">Company:</label>
+    <input type="text" id="company" name="company"><br><br>
+
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date"><br><br>
+
+    <label for="contact">Contact:</label>
+    <input type="text" id="contact" name="contact"><br><br>
+
+    <label for="customerId">Customer ID:</label>
+    <input type="text" id="customerId" name="customerId"><br><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email"><br><br>
+
+    <label for="subject">Subject:</label>
+    <input type="text" id="subject" name="subject"><br><br>
+
+    <label for="status">Status:</label>
+    <select id="status" name="status">
+      <option value="pending">Pending</option>
+      <option value="processing">Processing</option>
+      <option value="completed">Completed</option>
+    </select><br><br>
+
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
+<script>
+  // Function to show/hide the form container
+  document.getElementById('documentTraysLink').addEventListener('click', function() {
+    var formContainer = document.getElementById('formContainer');
+    formContainer.style.display = formContainer.style.display === 'block' ? 'none' : 'block';
+  });
+</script>
+
+</body>
+</html>
