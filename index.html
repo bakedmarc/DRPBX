@@ -188,20 +188,24 @@
   </form>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropbox/5.1.0/Dropbox-sdk.min.js"></script>
 <script>
-  // Function to show/hide the form container
-  document.getElementById('documentTraysLink').addEventListener('click', function() {
-    var formContainer = document.getElementById('formContainer');
-    formContainer.style.display = formContainer.style.display === 'block' ? 'none' : 'block';
-  });
-</script>
-<script>
-  // Function to show/hide the form container
-  document.getElementById('documentTraysLink').addEventListener('click', function() {
-    var formContainer = document.getElementById('formContainer');
-    formContainer.style.display = formContainer.style.display === 'block' ? 'none' : 'block';
-  });
-</script>
+  const ACCESS_TOKEN = 'sl.BzhtOaFiAlQu9wwfb2xIf2Ys_Ja2NjrE_OG7Yq2g8_OapDUXB1V-i3sKmF5MMIeQIEFByxzq5MccC3c1cco6ApVTBtKeyiM1dFNtaJlUrzJUxcYolNf7TcfxEg7MkcQVI6ORhtBw-wHyunoukLXSGKM'; // Replace with your actual Dropbox access token
+  const dbx = new Dropbox.Dropbox({ accessToken: ACCESS_TOKEN });
 
-</body>
-</html>
+  // Function to handle file upload to Dropbox
+  function uploadToDropbox(file) {
+    dbx.filesUpload({ path: '/' + file.name, contents: file })
+      .then(function (response) {
+        console.log('File uploaded:', response);
+        alert('File uploaded successfully!');
+      })
+      .catch(function (error) {
+        console.error('Error uploading file:', error);
+        alert('Error uploading file. Please try again later.');
+      });
+  }
+
+  // Event listener for file input change
+  document.getElementById('fileInput').addEventListener('change', function(event) {
+    const file = event.target.files[0]; 
