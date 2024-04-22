@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload to Dropbox/Google Drive</title>
+    <style>
+        /* Your CSS styles here */
+        #dropzone {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        #dropzone.dragover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div id="dropzone">Drag & Drop files here</div>
+
+    <script>
+        // Your JavaScript code here
+        const dropzone = document.getElementById('dropzone');
+
+        dropzone.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            dropzone.classList.add('dragover');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('dragover');
+        });
+
+        dropzone.addEventListener('drop', handleDrop);
+
+        function handleDrop(event) {
+            event.preventDefault();
+            dropzone.classList.remove('dragover');
+
+            const files = event.dataTransfer.files;
+            uploadFilesToDropboxOrDrive(files);
+        }
+
+        function uploadFilesToDropboxOrDrive(files) {
+            // Your file upload logic here
+            // Use Dropbox or Google Drive API to upload the files
+            // Make AJAX requests to your server-side code or use a server-side framework
+        }
+    </script>
+</body>
+</html>

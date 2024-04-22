@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Custom styles -->
+
+  <!-- FullCalendar CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.0/main.min.css" rel="stylesheet">
+<!-- FullCalendar JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.0/main.min.js"></script>
+
+  <style>
+    /* Add your custom styles here */
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 100;
+      padding: 48px 0 0;
+      box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    }
+    .sidebar-sticky {
+      position: relative;
+      top: 0;
+      height: calc(100vh - 48px);
+      padding-top: .5rem;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+    .sidebar .nav-link {
+      font-weight: 500;
+      color: #333;
+    }
+    .sidebar .nav-link.active {
+      color: #007bff;
+    }
+    .sidebar-logo {
+      padding: 0 20px;
+      margin-bottom: 20px;
+    }
+    .sidebar-logo img {
+      max-width: 100%;
+    }
+    /* Content */
+    .content-wrapper {
+      margin-left: 250px;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+        <div class="sidebar-logo">
+          <img src="logo1.jpg" alt="Logo">
+        </div>
+        <div class="sidebar-sticky">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="#dashboard">
+                <i class="fas fa-home"></i> Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#charts">
+                <i class="fas fa-chart-bar"></i> Charts
+              </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#calendar">
+                    <i class="fa-regular fa-calendar"></i> Calendar
+                </a>
+              </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#settings">
+                <i class="fas fa-cogs"></i> Settings
+              </a>
+            </li>
+
+            <!-- Add more sidebar items as needed -->
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Content -->
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 content-wrapper">
+        <div id="dashboard">
+          <h2>CRM Dashboard</h2>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <div class="card-body">
+                  <h5 class="card-title">Total Customers</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">March 2024</h6>
+                  <p class="card-text">500</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <div class="card-body">
+                  <h5 class="card-title">New Customers</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Last 30 Days</h6>
+                  <p class="card-text">50</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <div class="card-body">
+                  <h5 class="card-title">Revenue</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">This Year</h6>
+                  <p class="card-text">$100,000</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Sales Performance</h5>
+                  <canvas id="salesChart" width="400" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Top Customers</h5>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Customer 1</li>
+                    <li class="list-group-item">Customer 2</li>
+                    <li class="list-group-item">Customer 3</li>
+                    <li class="list-group-item">Customer 4</li>
+                    <li class="list-group-item">Customer 5</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div id="charts" style="display: none;">
+          <h2>Charts</h2>
+          <canvas id="myChart" width="400" height="200"></canvas>
+          <script>
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [12, 19, 3, 5, 2, 3],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+          </script>
+        </div>
+
+        <div id="calendar" style="display: none;">
+    <h2>Calendar</h2>
+    <div id="calendar-interface">
+        <div class="calendar">
+            <div class="month">
+                <ul>
+                    <li class="prev">&#10094;</li>
+                    <li class="next">&#10095;</li>
+                    <li>
+                        April<br>
+                        <span style="font-size:18px">2024</span>
+                    </li>
+                </ul>
+            </div>
+
+            <ul class="weekdays">
+                <li>Mo</li>
+                <li>Tu</li>
+                <li>We</li>
+                <li>Th</li>
+                <li>Fr</li>
+                <li>Sa</li>
+                <li>Su</li>
+            </ul>
+
+            <ul class="days">
+                <!-- Days will be dynamically generated here -->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Add your custom calendar styles here */
+    .calendar {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .month {
+        text-align: center;
+        padding: 20px 10px;
+        background: #1abc9c;
+        color: white;
+        border-radius: 10px;
+    }
+
+    .weekdays {
+        margin: 0;
+        padding: 10px 0;
+        background-color: #ddd;
+    }
+
+    .weekdays li {
+        display: inline-block;
+        width: 13.6%;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .days {
+        padding: 10px 0;
+        background: #eee;
+        margin: 0;
+    }
+
+    .days li {
+        list-style-type: none;
+        display: inline-block;
+        width: 13.6%;
+        text-align: center;
+        margin-bottom: 5px;
+        font-size: 12px;
+        color: #777;
+    }
+
+    .days li:nth-child(odd) {
+        background: #f9f9f9;
+    }
+
+    .days li.today {
+        background: #1abc9c;
+        color: white;
+        border-radius: 50%;
+    }
+
+    .prev,
+    .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        padding: 5px 10px;
+        color: white;
+        font-weight: bold;
+        background-color: #1abc9c;
+        border-radius: 5px;
+    }
+
+    .prev:hover,
+    .next:hover {
+        background-color: #13523f;
+    }
+
+    .next {
+        right: 0;
+    }
+
+    .prev {
+        left: 0;
+    }
+</style>
+        <div id="settings" style="display: none;">
+          <h2>Settings</h2>
+          <p>Settings content goes here.</p>
+        </div>
+        
+      </main>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+  <script>
+    // Chart.js
+    var ctx = document.getElementById('salesChart').getContext('2d');
+    var salesChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+            datasets: [{
+                label: 'Sales',
+                data: [100, 200, 300, 400, 500, 600, 700],
+                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+    
+
+    // Handle navigation
+    document.querySelectorAll('.nav-link').forEach(item => {
+      item.addEventListener('click', event => {
+        event.preventDefault();
+        const target = item.getAttribute('href').substring(1);
+        document.querySelectorAll('.content-wrapper > div').forEach(section => {
+          if (section.id === target) {
+            section.style.display = 'block';
+          } else {
+            section.style.display = 'none';
+          }
+        });
+      });
+    });
+
+       // Function to generate calendar days
+       function generateCalendarDays(year, month) {
+        let daysInMonth = new Date(year, month + 1, 0).getDate();
+        let firstDayOfMonth = new Date(year, month, 1).getDay();
+        let daysList = document.querySelector('.days');
+        daysList.innerHTML = '';
+
+        // Generate empty slots for days before the first day of the month
+        for (let i = 0; i < firstDayOfMonth; i++) {
+            let emptyDay = document.createElement('li');
+            emptyDay.innerHTML = '';
+            daysList.appendChild(emptyDay);
+        }
+
+        // Generate days of the month
+        for (let i = 1; i <= daysInMonth; i++) {
+            let day = document.createElement('li');
+            day.innerHTML = i;
+            daysList.appendChild(day);
+        }
+
+        // Highlight today's date
+        let today = new Date();
+        if (today.getMonth() === month && today.getFullYear() === year) {
+            let todayElement = document.querySelector('.days li:nth-child(' + (today.getDate() + firstDayOfMonth) + ')');
+            if (todayElement) {
+                todayElement.classList.add('today');
+            }
+        }
+    }
+
+    // Function to handle navigation between months
+    document.querySelector('.prev').addEventListener('click', function () {
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let prevMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
+        let prevYear = (prevMonth === 11) ? currentYear - 1 : currentYear;
+        generateCalendarDays(prevYear, prevMonth);
+    });
+
+    document.querySelector('.next').addEventListener('click', function () {
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let nextMonth = (currentMonth === 11) ? 0 : currentMonth + 1;
+        let nextYear = (nextMonth === 0) ? currentYear + 1 : currentYear;
+        generateCalendarDays(nextYear, nextMonth);
+    });
+
+    // Initial calendar generation
+    let currentMonth = new Date().getMonth();
+    let currentYear = new Date().getFullYear();
+    generateCalendarDays(currentYear, currentMonth);
+  </script>
+</body>
+</html>

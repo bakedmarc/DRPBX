@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligent Indexing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #searchResults {
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Intelligent Indexing System</h1>
+        <form id="searchForm">
+            <input type="text" id="searchInput" placeholder="Enter your search query">
+            <button type="submit">Search</button>
+        </form>
+        <div id="searchResults">
+            <!-- Search results will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchForm = document.getElementById('searchForm');
+            const searchInput = document.getElementById('searchInput');
+            const searchResults = document.getElementById('searchResults');
+
+            searchForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent form submission
+                
+                const searchTerm = searchInput.value.trim();
+                
+                // Clear previous search results
+                searchResults.innerHTML = '';
+
+                if (searchTerm !== '') {
+                    // Simulate fetching search results (replace with actual backend/API call)
+                    const fakeSearchResults = [
+                        "Result 1: Lorem ipsum dolor sit amet",
+                        "Result 2: Consectetur adipiscing elit",
+                        "Result 3: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+                    ];
+
+                    // Filter results based on search term (you might want to implement more advanced filtering)
+                    const filteredResults = fakeSearchResults.filter(result => result.toLowerCase().includes(searchTerm.toLowerCase()));
+
+                    if (filteredResults.length > 0) {
+                        // Display search results
+                        filteredResults.forEach(result => {
+                            const resultElement = document.createElement('p');
+                            resultElement.textContent = result;
+                            searchResults.appendChild(resultElement);
+                        });
+                    } else {
+                        const noResultsMessage = document.createElement('p');
+                        noResultsMessage.textContent = "No results found.";
+                        searchResults.appendChild(noResultsMessage);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

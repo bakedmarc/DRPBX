@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document Management System</title>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header, footer {
+  background-color: #fe0000;
+  color: #040404;
+  padding: 20px;
+}
+
+main {
+  display: flex;
+}
+
+#documents {
+  flex: 1;
+  padding: 20px;
+}
+
+#documents ul {
+  list-style: none;
+  padding: 0;
+}
+
+#documents ul li {
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#documents ul li:hover {
+  background-color: #f0f0f0;
+}
+
+#viewer {
+  flex: 2;
+  padding: 20px;
+  border-left: 1px solid #ccc;
+}
+
+#viewer iframe {
+  max-width: 100%;
+  height: 600px;
+}
+
+#uploadForm {
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input[type="text"] {
+  width: calc(100% - 20px); /* Adjusting for padding */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Document Management System</h1>
+  </header>
+  <main>
+    <div id="documents">
+      <ul>
+        <!-- Document list will be populated here -->
+      </ul>
+    </div>
+    <div id="viewer">
+      <!-- Document viewer will be displayed here -->
+    </div>
+    <div id="uploadForm">
+      <form id="uploadFormInner">
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="address">Address:</label>
+          <input type="text" id="address" name="address" required>
+        </div>
+        <div class="form-group">
+          <label for="section">Section:</label>
+          <input type="text" id="section" name="section" required>
+        </div>
+        <label id="fileInputLabel" for="fileInput">Upload PDF</label>
+        <input type="file" id="fileInput" name="fileInput" accept=".pdf" required>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </main>
+  <footer>
+    <p>&copy; 2024 Document Management System</p>
+  </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const documentsContainer = document.getElementById('documents');
+      const viewerContainer = document.getElementById('viewer');
+      const uploadForm = document.getElementById('uploadFormInner');
+      const fileInput = document.getElementById('fileInput');
+
+      // Function to display selected document
+      function displayDocument(url) {
+        viewerContainer.innerHTML = '';
+        const iframe = document.createElement('iframe');
+        iframe.src = url;
+        viewerContainer.appendChild(iframe);
+      }
+
+      // Function to handle form submission
+      uploadForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(uploadForm);
+        const file = formData.get('fileInput');
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            const url = event.target.result;
+            displayDocument(url);
+          };
+          reader.readAsDataURL(file);
+        }
+        // You can handle form data submission to your server here
+      });
+
+      // Function to handle file upload
+      fileInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            const url = event.target.result;
+            displayDocument(url);
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Function to display documents
+      function displayDocuments() {
+        documentsContainer.innerHTML = '';
+        const ul = document.createElement('ul');
+        // Sample document data
+        const documents = [
+          { name: 'Document 1', url: 'document1.pdf' },
+          { name: 'Document 2', url: 'document2.pdf' },
+          { name: 'Document 3', url: 'document3.pdf' }
+        ];
+        documents.forEach(doc => {
+          const li = document.createElement('li');
+          li.textContent = doc.name;
+          li.addEventListener('click', function() {
+            displayDocument(doc.url);
+          });
+          ul.appendChild(li);
+        });
+        documentsContainer.appendChild(ul);
+      }
+
+      // Initial display of documents
+      displayDocuments();
+    });
+  </script>
+</body>
+</html>

@@ -24,17 +24,16 @@
   .container {
     display: flex;
     height: 100vh;
-    position: relative; /* added */
+    position: relative;
   }
 
   /* Styling for each section/window */
   .section {
     flex: 1;
     border: 1px solid #ccc;
-    padding: 20px;
     overflow: auto;
     background-color: #fff;
-    position: relative; /* added */
+    position: relative;
   }
 
   /* Styling to give some space between sections */
@@ -47,20 +46,20 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
-    background: linear-gradient(to right, #ffb347, #ffcc33, #ffeb99);
+    background: linear-gradient(to right, #fa0000, #840000, #000000);
     padding: 10px;
     border-radius: 20px;
   }
 
   .nav a {
     text-decoration: none;
-    color: #333;
+    color: #f0efee; /* Light gray */
     padding: 5px 15px;
     border: 1px solid transparent;
     border-radius: 5px;
     transition: background-color 0.3s ease;
     font-size: 16px;
-  }
+}
 
   .nav a:hover {
     background-color: rgba(255, 5, 5, 0.5);
@@ -73,8 +72,9 @@
   }
 
   .logo img {
-    max-width: 100%;
-    height: auto;
+    max-width:25%;
+    display:flex
+ 
   }
 
   /* Styling for section headings */
@@ -110,7 +110,16 @@
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    z-index: 999; /* Ensure it's above other elements */
+    z-index: 999;
+  }
+
+  /* Styling for the file display */
+  .fileDisplay {
+    position: absolute;
+    background-color: rgba(249, 69, 69, 0.8);
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: none;
   }
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -120,7 +129,7 @@
 <div class="container">
   <div class="section">
     <div class="logo">
-      <img src="logo.png" alt="Company Logo">
+      <img src="logo1.jpg" alt="Company Logo">
     </div>
     
     <div class="nav">
@@ -133,17 +142,20 @@
     <!-- Additional navigation bar in Section 1 -->
 
     <div class="nav">
-        <a href="#" onclick="document.getElementById('fileInput').click(); return false;"><i class="fab fa-dropbox"></i>Import</a>
-        <input type="file" id="fileInput" style="display:none;">
-        <a href="#"><i class="fa-solid fa-print"></i>Scan</a>
-        <!-- Two other icons or links -->
-        <a href="#"></i>Icon 1</a>
-        <a href="#"><i class="fas fa-database"></i></a>
-      </div>
+      <a href="#" onclick="document.getElementById('fileInput').click(); return false;"><i class="fab fa-dropbox"></i>Import</a>
+      <input type="file" id="fileInput" style="display:none;">
+      <a href="#"><i class="fa-solid fa-print"></i>Scan</a>
+      <!-- Two other icons or links -->
+      <a href="#"></i>Icon 1</a>
+      <a href="#"><i class="fas fa-database"></i></a>
+    </div>
 
     <h2>Section 1</h2>
-    <p>This is the content of section 1.</p>
+   
     <!-- Add more content here -->
+    
+    <!-- File display container -->
+    <div class="fileDisplay" id="fileDisplay"></div>
   </div>
   <div class="section">
     <h2>Section 2</h2>
@@ -185,36 +197,30 @@
     </select><br><br>
 
     <input type="submit" value="Submit">
+    <button type="button" id="closeForm">Close</button>
   </form>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dropbox/5.1.0/Dropbox-sdk.min.js"></script>
 <script>
-<<<<<<< HEAD
   // Function to show/hide the form container
   document.getElementById('documentTraysLink').addEventListener('click', function() {
     var formContainer = document.getElementById('formContainer');
     formContainer.style.display = formContainer.style.display === 'block' ? 'none' : 'block';
   });
-</script>
-=======
-  const ACCESS_TOKEN = 'sl.BzhtOaFiAlQu9wwfb2xIf2Ys_Ja2NjrE_OG7Yq2g8_OapDUXB1V-i3sKmF5MMIeQIEFByxzq5MccC3c1cco6ApVTBtKeyiM1dFNtaJlUrzJUxcYolNf7TcfxEg7MkcQVI6ORhtBw-wHyunoukLXSGKM'; // Replace with your actual Dropbox access token
-  const dbx = new Dropbox.Dropbox({ accessToken: ACCESS_TOKEN });
->>>>>>> 0fdd978cb5777c3fe7c040dcac374322b4cf54aa
 
-  // Function to handle file upload to Dropbox
-  function uploadToDropbox(file) {
-    dbx.filesUpload({ path: '/' + file.name, contents: file })
-      .then(function (response) {
-        console.log('File uploaded:', response);
-        alert('File uploaded successfully!');
-      })
-      .catch(function (error) {
-        console.error('Error uploading file:', error);
-        alert('Error uploading file. Please try again later.');
-      });
-  }
-
-  // Event listener for file input change
+  // Function to display selected file
   document.getElementById('fileInput').addEventListener('change', function(event) {
-    const file = event.target.files[0]; 
+    var fileDisplay = document.querySelector('.section .fileDisplay');
+    var fileName = event.target.files[0].name;
+    fileDisplay.textContent = 'Selected file: ' + fileName;
+    fileDisplay.style.display = 'block';
+
+    
+  });
+
+
+    
+</script>
+
+</body>
+</html>
